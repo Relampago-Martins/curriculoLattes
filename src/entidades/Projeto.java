@@ -6,13 +6,14 @@ import utilitarios.Data;
 
 
 public class Projeto {
-	String titulo, descricao;
-	Data dtInicio, dtFim;
-	ArrayList<Pesquisador> pesquisadores;
+	private String titulo, descricao;
+	private Data dtInicio, dtFim;
+	private ArrayList<Pesquisador> pesquisadores;
 	
 	public Projeto(String titulo, Pesquisador pesquisadorTitular){
 		this.setTitulo(titulo);
-		this.setPesquisadores(pesquisadorTitular);
+		this.pesquisadores = new ArrayList<>();
+		this.addPesquisador(pesquisadorTitular);
 	}
 	
 	public void setTitulo(String titulo) {
@@ -22,21 +23,26 @@ public class Projeto {
 	public String getTitulo() {
 		return this.titulo;
 	}
-	
-	public void setPesquisadores(Pesquisador pesquisador) {
-		if (this.pesquisadores == null) {			
-			this.pesquisadores = new ArrayList<>();
-		}
 
-		if (pesquisador != null) {
-			this.pesquisadores.add(pesquisador);
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	
+	public void setDtInicio(Data dtInicio) {
+		if (this.dtFim != null && dtInicio.compareTo(this.dtFim) > 0) {
+			System.out.println("Data de início não pode ser posterior à data de fim");
+		}else {
+			this.dtInicio = dtInicio;
 		}
 	}
 
-	public void setDtInicio(Data dtInicio) {
-		if (this.dtFim != null && dtInicio.compareTo(this.dtFim) > 0) {
-		}else {
-			this.dtInicio = dtInicio;
+	public void addPesquisador(Pesquisador pesquisador){
+		if (pesquisador != null) {
+			if (this.pesquisadores.indexOf(pesquisador) == -1)
+				this.pesquisadores.add(pesquisador);
+			else
+				System.out.println("Pesquisador já cadastrado");
 		}
 	}
 }

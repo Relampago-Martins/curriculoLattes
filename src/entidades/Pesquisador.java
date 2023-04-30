@@ -3,14 +3,16 @@ package entidades;
 import java.util.ArrayList;
 
 public class Pesquisador {
-	String nome, universidade;
-	int area;
-	ArrayList<Projeto> projetos;
+	private String nome, universidade;
+	private int area;
+	private ArrayList<Projeto> projetos;
 	
 	public Pesquisador(String nome, String universidade, Projeto projeto) {
 		this.setNome(nome);
 		this.setUniversidade(universidade);
-		this.setProjetos(projeto);
+
+		this.projetos = new ArrayList<>();
+		this.addProjeto(projeto);
 	}
 
 	public Pesquisador(String nome, String universidade) {
@@ -35,13 +37,12 @@ public class Pesquisador {
 	public void setArea(int area) {
 		this.area = area;
 	}
-	public void setProjetos(Projeto projeto) {
-		if (this.projetos == null) {
-			this.projetos = new ArrayList<>();
-		}
-		
+	public void addProjeto(Projeto projeto) {
 		if (projeto != null) {
-			this.projetos.add(projeto);
+			if (this.projetos.indexOf(projeto) == -1)
+				this.projetos.add(projeto);
+			else
+				System.out.println("Projeto já cadastrado");
 		}
 	}
 	

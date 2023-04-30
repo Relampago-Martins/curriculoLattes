@@ -32,6 +32,7 @@ public class InterfaceDeUsuario {
 				this.criarPesquisador();
 				break;
 			case CRIAR_PROJETO:
+				this.criarProjeto();
 				break;
 			case CRIAR_ARTIGO:
 				break;
@@ -82,5 +83,40 @@ public class InterfaceDeUsuario {
 		Pesquisador novoPesquisador = new Pesquisador(nome, universidade);
 		this.pesquisadores.add(novoPesquisador);
 		return novoPesquisador;
+	}
+
+	public Projeto criarProjeto(){
+		String nomeProjeto, descricao;
+
+		System.out.println("Nome: ");
+		nomeProjeto = this.leitor.nextLine();
+		System.out.println("Descricao: ");
+		descricao = this.leitor.nextLine();
+
+		Pesquisador pesquisadorFind = this.getInputPesquisador();
+		if (pesquisadorFind != null) {
+			Projeto novoProjeto = new Projeto(nomeProjeto, pesquisadorFind);
+			novoProjeto.setDescricao(descricao);
+			this.projetos.add(novoProjeto);
+
+			return novoProjeto;
+		}else{
+			System.out.println("Pesquisador nao encontrado. Operacao cancelada.");
+		}
+		return null;
+	}
+
+	public Pesquisador getInputPesquisador(){
+		Pesquisador getInputPesquisador=null;
+		System.out.println("Nome do Pesquisador: ");
+		String nome = this.leitor.nextLine();
+
+		for (Pesquisador pesquisador : this.pesquisadores) {
+			if (pesquisador.getNome().equals(nome)) {
+				getInputPesquisador = pesquisador;
+				break;
+			}
+		}
+		return getInputPesquisador;
 	}
 }
