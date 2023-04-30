@@ -119,4 +119,10 @@ public class InterfaceDeUsuario {
 		}
 		return getInputPesquisador;
 	}
+
+	public Artigo criarArtigo(){
+		String nomeProjeto, descricao;
+		return null;
+	}
+
 }
