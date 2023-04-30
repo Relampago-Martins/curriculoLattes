@@ -7,6 +7,7 @@ import entidades.Projeto;
 import entidades.Artigo;
 
 
+
 public class CarregadorDeDados {
 	
 	public static void charge(ArrayList<Pesquisador> pesquisadores,
