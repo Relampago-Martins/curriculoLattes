@@ -1,2 +1,2 @@
 # curriculoLattes
-Sistema que representa o sistema Lattes
+Sistema que representa o curriculo Lattes
