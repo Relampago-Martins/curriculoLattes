@@ -45,5 +45,12 @@ public class Pesquisador {
 				System.out.println("Projeto já cadastrado");
 		}
 	}
+
+	public Projeto getProjeto(int indice) {
+		if (indice >= 0 && indice < this.projetos.size())
+			return this.projetos.get(indice);
+		
+		return null;
+	}
 	
 }
