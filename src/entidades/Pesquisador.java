@@ -3,8 +3,7 @@ package entidades;
 import java.util.ArrayList;
 
 public class Pesquisador {
-	private String nome, universidade;
-	private int area;
+	private String nome, universidade, areaConhecimento;
 	private ArrayList<Projeto> projetos;
 	
 	public Pesquisador(String nome, String universidade, Projeto projeto) {
@@ -31,11 +30,11 @@ public class Pesquisador {
 	public void setUniversidade(String universidade) {
 		this.universidade = universidade;
 	}
-	public int getArea() {
-		return this.area;
+	public String getAreaConhecimento() {
+		return this.areaConhecimento;
 	}
-	public void setArea(int area) {
-		this.area = area;
+	public void setAreaConhecimento(String areaConhecimento) {
+		this.areaConhecimento = areaConhecimento;
 	}
 	public void addProjeto(Projeto projeto) {
 		if (projeto != null) {
@@ -51,6 +50,10 @@ public class Pesquisador {
 			return this.projetos.get(indice);
 		
 		return null;
+	}
+
+	public String toString(){
+		return String.format("%s da universidade %s", this.nome, this.universidade);
 	}
 	
 }

@@ -37,12 +37,12 @@ public class CarregadorDeDados {
 	}
 	
 	private static void carregarArtigos(ArrayList<Artigo> artigos) {
-		artigos.add(new Artigo("Aprendizado de máquina na previsão de preços de ações", null));
-		artigos.add(new Artigo("Compras online versus lojas de varejo", null));
-		artigos.add(new Artigo("Sono e desempenho acadêmico", null));
-		artigos.add(new Artigo("Energia renovável versus fontes de energia tradicionais", null));
-		artigos.add(new Artigo("Meditação da atenção plena no local de trabalho", null));
-		artigos.add(new Artigo("Linguagens de programação para aplicativos da web", null));
+		artigos.add(new Artigo("Aprendizado de máquina na previsão de preços de ações", null, 2019));
+		artigos.add(new Artigo("Compras online versus lojas de varejo", null, 2019));
+		artigos.add(new Artigo("Sono e desempenho acadêmico", null, 2019));
+		artigos.add(new Artigo("Energia renovável versus fontes de energia tradicionais", null, 2000));
+		artigos.add(new Artigo("Meditação da atenção plena no local de trabalho", null, 2022));
+		artigos.add(new Artigo("Linguagens de programação para aplicativos da web", null, 2023));
 	}
 	
 	private static void carregarProjetos(ArrayList<Projeto> projetos) {

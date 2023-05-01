@@ -38,10 +38,25 @@ public class InterfaceDeUsuario {
 				this.criarArtigo();
 				break;
 			case LIS_PESQUISADORES:
+				this.lisPesquisadores();
 				break;
 			case LIS_PROJETOS:
+				this.lisProjetos();
 				break;
 			case LIS_ARTIGOS:
+				this.lisArtigos();
+				break;
+			case PESQUISADOR_UNIVERSIDADE:
+				// this.pesquisadorUniversidade();
+				break;
+			case AUTORES_ARTIGO:
+				// this.autoresArtigo();
+				break;
+			case PROJETOS_PESQUISADOR:
+				// this.projetosPesquisador();
+				break;
+			case PESQ_PROJ_FINALIZADO:
+				// this.pesqProjFinalizado();
 				break;
 			default:
 				continuar = false;
@@ -109,12 +124,20 @@ public class InterfaceDeUsuario {
 	public Artigo criarArtigo(){
 		System.out.println("Nome do Artigo: ");
 		String nomeArtigo = this.leitor.nextLine();
+		System.out.println("Ano de publicação: ");
+		int anoPublicacao = this.leitor.nextInt();
+		this.leitor.nextLine();
 		
 		Pesquisador pesquisadorFind = this.getInputPesquisador();
 		if (pesquisadorFind != null){
-			Artigo novoArtigo = new Artigo(nomeArtigo, pesquisadorFind);
-			this.artigos.add(novoArtigo);
-			return novoArtigo;
+			try{
+				Artigo novoArtigo = new Artigo(nomeArtigo, pesquisadorFind, anoPublicacao);
+				this.artigos.add(novoArtigo);
+				return novoArtigo;
+			}catch (Exception error) {
+				System.out.println(error.getMessage());
+				return null;
+			}
 		}
 		System.out.println("Pesquisador nao encontrado. Operacao cancelada.");
 		return null;
@@ -132,5 +155,26 @@ public class InterfaceDeUsuario {
 			}
 		}
 		return getInputPesquisador;
+	}
+
+	public void lisPesquisadores(){
+		System.out.println("Pesquisadores: ");
+		for (Pesquisador pesquisador : this.pesquisadores) {
+			System.out.printf("\t%s\n", pesquisador);
+		}
+	}
+
+	public void lisProjetos(){
+		System.out.println("Projetos: ");
+		for (Projeto projeto : this.projetos) {
+			System.out.printf("\t%s\n", projeto);
+		}
+	}
+
+	public void lisArtigos(){
+		System.out.println("Artigos: ");
+		for (Artigo artigo : this.artigos) {
+			System.out.printf("\t%s\n", artigo);
+		}
 	}
 }

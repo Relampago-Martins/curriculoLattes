@@ -28,7 +28,6 @@ public class Projeto {
 		this.descricao = descricao;
 	}
 
-	
 	public void setDtInicio(Data dtInicio) {
 		if (this.dtFim != null && dtInicio.compareTo(this.dtFim) > 0) {
 			System.out.println("Data de início não pode ser posterior à data de fim");
@@ -44,5 +43,21 @@ public class Projeto {
 			else
 				System.out.println("Pesquisador já cadastrado");
 		}
+	}
+
+	public Pesquisador getPesquisador(int indice) {
+		if (indice >= 0 && indice < this.pesquisadores.size())
+			return this.pesquisadores.get(indice);
+		
+		return null;
+	}	
+
+	public String toString(){
+		return String.format("%s", this.titulo);
+	}
+
+	public boolean estahFinalizado() {
+		Data hoje = new Data();
+		return this.dtFim.compareTo(hoje) < 0;
 	}
 }
