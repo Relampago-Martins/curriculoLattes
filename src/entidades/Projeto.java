@@ -8,14 +8,26 @@ import utilitarios.Data;
 public class Projeto {
 	private String titulo, descricao;
 	private Data dtInicio, dtFim;
-	private ArrayList<Pesquisador> pesquisadores;
+	private ArrayList<Pesquisador> autores;
 	
-	public Projeto(String titulo, Pesquisador pesquisadorTitular){
+	public Projeto(String titulo, Pesquisador autorTitular, Data dtInicio, Data dtFim) {
 		this.setTitulo(titulo);
-		this.pesquisadores = new ArrayList<>();
-		this.addPesquisador(pesquisadorTitular);
+		this.autores = new ArrayList<>();
+		this.addAutor(autorTitular);
+		this.setDtInicio(dtInicio);
+		this.setDtFim(dtFim);
+			
 	}
-	
+
+	public Projeto(String titulo, Pesquisador autorTitular, Data dtFim) {
+		this(titulo, autorTitular, null, dtFim);
+	}
+
+
+	public String toString(){
+		return String.format("%s", this.titulo);
+	}
+
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
@@ -29,35 +41,56 @@ public class Projeto {
 	}
 
 	public void setDtInicio(Data dtInicio) {
-		if (this.dtFim != null && dtInicio.compareTo(this.dtFim) > 0) {
-			System.out.println("Data de início não pode ser posterior à data de fim");
-		}else {
+		if (dtInicio == null)
+			this.dtInicio = new Data();
+		else
 			this.dtInicio = dtInicio;
-		}
 	}
 
-	public void addPesquisador(Pesquisador pesquisador){
-		if (pesquisador != null) {
-			if (this.pesquisadores.indexOf(pesquisador) == -1)
-				this.pesquisadores.add(pesquisador);
-			else
-				System.out.println("Pesquisador já cadastrado");
+	public void setDtFim(Data dtFim) {
+		if (dtFim == null || dtFim.compareTo(this.dtInicio) < 0) {
+			throw new IllegalArgumentException("Data de fim inválida.");
+		}else {
+			this.dtFim = dtFim;
 		}
-	}
-
-	public Pesquisador getPesquisador(int indice) {
-		if (indice >= 0 && indice < this.pesquisadores.size())
-			return this.pesquisadores.get(indice);
-		
-		return null;
-	}	
-
-	public String toString(){
-		return String.format("%s", this.titulo);
 	}
 
 	public boolean estahFinalizado() {
 		Data hoje = new Data();
 		return this.dtFim.compareTo(hoje) < 0;
+	}
+
+	public void addAutor(Pesquisador novoAutor){
+		if (novoAutor != null) {
+			if (this.autores.indexOf(novoAutor) == -1)
+				this.autores.add(novoAutor);
+			else
+				throw new IllegalArgumentException("Pesquisador já cadastrado como autor.");
+		}
+	}
+
+	public Pesquisador getAutor(int indice) {
+		if (indice >= 0 && indice < this.autores.size())
+			return this.autores.get(indice);
+		
+		return null;
+	}	
+	
+	public boolean temAutor(Pesquisador pesquisador) {
+		if (this.autores.indexOf(pesquisador) != -1)
+			return true;
+		return false;
+	}
+
+	public boolean temAutor(String nomeAutor) {
+		for (Pesquisador pesquisador : this.autores) {
+			if (pesquisador.getNome().equals(nomeAutor))
+				return true;
+		}
+		return false;
+	}
+
+	public int getAutoresSize() {
+		return this.autores.size();
 	}
 }

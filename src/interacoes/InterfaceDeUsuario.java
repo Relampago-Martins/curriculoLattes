@@ -1,11 +1,12 @@
 package interacoes;
-import utilitarios.CarregadorDeDados;
-import entidades.Pesquisador;
-import entidades.Projeto;
 
 import java.util.Scanner;
 import java.util.ArrayList;
 
+import utilitarios.CarregadorDeDados;
+import utilitarios.Data;
+import entidades.Pesquisador;
+import entidades.Projeto;
 import entidades.Artigo;
 
 public class InterfaceDeUsuario {
@@ -13,7 +14,7 @@ public class InterfaceDeUsuario {
 	enum Menu{
 		CRIAR_PESQUISADOR, CRIAR_PROJETO, CRIAR_ARTIGO,
 		LIS_PESQUISADORES, LIS_PROJETOS, LIS_ARTIGOS, PESQUISADOR_UNIVERSIDADE,
-		AUTORES_ARTIGO, PROJETOS_PESQUISADOR, PESQ_PROJ_FINALIZADO,
+		AUTORES_ARTIGO, PROJETOS_PESQUISADOR, AUTORES_PROJ_FINALIZADO,
 		DEFAULT
 	}
 
@@ -47,16 +48,16 @@ public class InterfaceDeUsuario {
 				this.lisArtigos();
 				break;
 			case PESQUISADOR_UNIVERSIDADE:
-				// this.pesquisadorUniversidade();
+				this.pesquisadorUniversidade();
 				break;
 			case AUTORES_ARTIGO:
-				// this.autoresArtigo();
+				this.autoresArtigo();
 				break;
 			case PROJETOS_PESQUISADOR:
-				// this.projetosPesquisador();
+				this.projetosPesquisador();
 				break;
-			case PESQ_PROJ_FINALIZADO:
-				// this.pesqProjFinalizado();
+			case AUTORES_PROJ_FINALIZADO:
+				this.autoresProjFinalizado();
 				break;
 			default:
 				continuar = false;
@@ -73,10 +74,10 @@ public class InterfaceDeUsuario {
 				"4- Listar Pesquisadores\n"+
 				"5- Listar Projetos\n"+
 				"6- Listar Artigos\n"+
-				"7- Listar Pesquisadores por Universidade\n"+
+				"7- Listar Pesquisadores de uma Universidade\n"+
 				"8- Listar Autores de um Artigo\n"+
 				"9- ListarProjetos de um Pesquisador\n"+
-				"10- Listar Pesquisadores por Projetos finalizados\n"+
+				"10- Listar Autores dos Projetos finalizados\n"+
 				"----------------------"
 				);
 		int option = this.leitor.nextInt();
@@ -103,15 +104,19 @@ public class InterfaceDeUsuario {
 
 	public Projeto criarProjeto(){
 		String nomeProjeto, descricao;
+		
 
 		System.out.println("Nome: ");
 		nomeProjeto = this.leitor.nextLine();
 		System.out.println("Descricao: ");
 		descricao = this.leitor.nextLine();
-
+		
+		System.out.println("Forneça a data de fim do projeto");
+		Data dataFim = this.getInputData();
 		Pesquisador pesquisadorFind = this.getInputPesquisador();
-		if (pesquisadorFind != null) {
-			Projeto novoProjeto = new Projeto(nomeProjeto, pesquisadorFind);
+	
+		if (pesquisadorFind != null && dataFim != null) {
+			Projeto novoProjeto = new Projeto(nomeProjeto, pesquisadorFind, dataFim);
 			novoProjeto.setDescricao(descricao);
 			this.projetos.add(novoProjeto);
 
@@ -122,8 +127,8 @@ public class InterfaceDeUsuario {
 	}
 	
 	public Artigo criarArtigo(){
-		System.out.println("Nome do Artigo: ");
-		String nomeArtigo = this.leitor.nextLine();
+		System.out.println("Titulo do Artigo: ");
+		String tituloArtigo = this.leitor.nextLine();
 		System.out.println("Ano de publicação: ");
 		int anoPublicacao = this.leitor.nextInt();
 		this.leitor.nextLine();
@@ -131,7 +136,7 @@ public class InterfaceDeUsuario {
 		Pesquisador pesquisadorFind = this.getInputPesquisador();
 		if (pesquisadorFind != null){
 			try{
-				Artigo novoArtigo = new Artigo(nomeArtigo, pesquisadorFind, anoPublicacao);
+				Artigo novoArtigo = new Artigo(tituloArtigo, pesquisadorFind, anoPublicacao);
 				this.artigos.add(novoArtigo);
 				return novoArtigo;
 			}catch (Exception error) {
@@ -141,20 +146,6 @@ public class InterfaceDeUsuario {
 		}
 		System.out.println("Pesquisador nao encontrado. Operacao cancelada.");
 		return null;
-	}
-	
-	public Pesquisador getInputPesquisador(){
-		Pesquisador getInputPesquisador=null;
-		System.out.println("Nome do Pesquisador: ");
-		String nome = this.leitor.nextLine();
-
-		for (Pesquisador pesquisador : this.pesquisadores) {
-			if (pesquisador.getNome().equals(nome)) {
-				getInputPesquisador = pesquisador;
-				break;
-			}
-		}
-		return getInputPesquisador;
 	}
 
 	public void lisPesquisadores(){
@@ -176,5 +167,106 @@ public class InterfaceDeUsuario {
 		for (Artigo artigo : this.artigos) {
 			System.out.printf("\t%s\n", artigo);
 		}
+	}
+
+	/**
+	 * Lista os pesquisadores de uma mesma Universidade;
+	 * */
+	public void pesquisadorUniversidade(){
+		System.out.println("Nome da Universidade: ");
+		String universidade = this.leitor.nextLine();
+		System.out.printf("Pesquisadores da %s:\n", universidade);
+
+		for(Pesquisador pesquisador: this.pesquisadores){
+			if (pesquisador.getUniversidade().equals(universidade)){
+				System.out.printf("\t%s\n", pesquisador.getNome());
+			}
+		}
+	}
+	
+	/**
+	 * Lista os autores de um determinado artigo;
+	 */
+	public void autoresArtigo(){
+		Artigo artigoFind = this.getInputArtigo();
+	
+		if (artigoFind != null){
+			System.out.printf("Autores do artigo '%s...':\n", artigoFind.getTitulo().substring(0, 30));
+			for (int i=0; i<artigoFind.getAutoresSize(); i++){
+				System.out.printf("\t%s\n", artigoFind.getAutor(i).getNome());
+			}
+		}else{
+			System.out.println("Artigo nao encontrado. Operacao cancelada.");
+		}
+	}
+
+	/**
+	 * Lista todos os projetos de um determinado pesquisador;
+	 */
+	public void projetosPesquisador(){
+		System.out.println("Nome do Pesquisador: ");
+		String nomePesquisador = this.leitor.nextLine();
+
+		System.out.printf("Projetos em que %s está:\n", nomePesquisador);
+		for (Projeto projeto: this.projetos){
+			if (projeto.temAutor(nomePesquisador))
+				System.out.printf("\t%s\n", projeto);
+		}
+	}
+
+	public void autoresProjFinalizado(){
+		System.out.println("Autores de projetos finalizados:");
+		for (Projeto projeto: this.projetos){
+			if (projeto.estahFinalizado()){
+				System.out.printf("  - %s:\n", projeto);
+				for (int i=0; i<projeto.getAutoresSize(); i++){
+					System.out.printf("\t%s\n", projeto.getAutor(i).getNome());
+				}
+			}
+		}
+	}
+	
+	public Artigo getInputArtigo(){
+		System.out.println("ID do artigo: ");
+		int idArtigo = this.leitor.nextInt();
+		this.leitor.nextLine();
+
+		for (Artigo artigo: this.artigos){
+			if (artigo.getId() == idArtigo){
+				return artigo;
+			}
+		}
+		return null;		
+	}
+
+	public Pesquisador getInputPesquisador(){
+		Pesquisador getInputPesquisador=null;
+		System.out.println("Nome do Pesquisador: ");
+		String nome = this.leitor.nextLine();
+
+		for (Pesquisador pesquisador : this.pesquisadores) {
+			if (pesquisador.getNome().equals(nome)) {
+				getInputPesquisador = pesquisador;
+				break;
+			}
+		}
+		return getInputPesquisador;
+	}
+
+	public Data getInputData(){
+		System.out.println("Dia: ");
+		int dia = this.leitor.nextInt();
+		System.out.println("Mes:");
+		int mes = this.leitor.nextInt();
+		System.out.println("Ano:");
+		int ano = this.leitor.nextInt();
+
+		try{
+			Data data = new Data(dia, mes, ano);
+			return data;
+		}catch (Exception error){
+			System.out.println(error.getMessage());
+		}
+		return null;
 	}
 }

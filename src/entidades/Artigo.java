@@ -7,24 +7,34 @@ import utilitarios.Data;
 
 public class Artigo {
 
-	private String tituloArtigo, tituloRevista;
-	private int anoPublicacao;
-	private ArrayList<Pesquisador> pesquisadores;
+	private static int countArtigos = 0;
+	private String titulo, revista;
+	private int anoPublicacao, id;
+	private ArrayList<Pesquisador> autores;
 	
-	public Artigo(String tituloArtigo, Pesquisador pesquisadoresTitular, int anoPublicacao) {
-		this.setTituloArtigo(tituloArtigo);
+	public Artigo(String titulo, Pesquisador autorTitular, int anoPublicacao) {
+		this.id = ++Artigo.countArtigos;
+		this.setTitulo(titulo);
 
-		this.pesquisadores = new ArrayList<>(); 
-		this.addPesquisador(pesquisadoresTitular);
+		this.autores = new ArrayList<>(); 
+		this.addAutor(autorTitular);
 		this.setAnoPublicacao(anoPublicacao);
 	}
 	
-	public void setTituloArtigo(String tituloArtigo) {
-		this.tituloArtigo = tituloArtigo;
+	public String toString(){
+		return String.format("(%d) %s, de %d",this.id, this.titulo, this.anoPublicacao);
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 	
-	public String getTituloArtigo() {
-		return this.tituloArtigo;
+	public String getTitulo() {
+		return this.titulo;
 	}
 
 	public void setAnoPublicacao(int anoPublicacao) {
@@ -37,24 +47,24 @@ public class Artigo {
 			
 	}
 	
-	public void addPesquisador(Pesquisador pesquisador){
-		if (pesquisador != null) {
-			if (this.pesquisadores.indexOf(pesquisador) == -1)
-				this.pesquisadores.add(pesquisador);
+	public void addAutor(Pesquisador novoAutor){
+		if (novoAutor != null) {
+			if (this.autores.indexOf(novoAutor) == -1)
+				this.autores.add(novoAutor);
 			else
-				System.out.println("Pesquisador já cadastrado");
+				throw new IllegalArgumentException("Pesquisador já cadastrado como autor.");
 		}
 	}
 
-	public Pesquisador getPesquisador(int indice) {
-		if (indice >= 0 && indice < this.pesquisadores.size())
-			return this.pesquisadores.get(indice);
+	public Pesquisador getAutor(int indice) {
+		if (indice >= 0 && indice < this.autores.size())
+			return this.autores.get(indice);
 		
 		return null;
 	}
 
-	public String toString(){
-		return String.format("%s, de %d", this.tituloArtigo, this.anoPublicacao);
+	public int getAutoresSize() {
+		return this.autores.size();
 	}
 
 }
