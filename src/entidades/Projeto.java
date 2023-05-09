@@ -6,11 +6,14 @@ import utilitarios.Data;
 
 
 public class Projeto {
+	private static int countProjetos = 0;
 	private String titulo, descricao;
 	private Data dtInicio, dtFim;
 	private ArrayList<Pesquisador> autores;
+	private int id;
 	
 	public Projeto(String titulo, Pesquisador autorTitular, Data dtInicio, Data dtFim) {
+		this.id = ++Projeto.countProjetos;
 		this.setTitulo(titulo);
 		this.autores = new ArrayList<>();
 		this.addAutor(autorTitular);
@@ -28,6 +31,10 @@ public class Projeto {
 		return String.format("%s", this.titulo);
 	}
 
+	public int getId() {
+		return this.id;
+	}
+
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
@@ -38,6 +45,9 @@ public class Projeto {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	public String getDescricao() {
+		return this.descricao;
 	}
 
 	public void setDtInicio(Data dtInicio) {

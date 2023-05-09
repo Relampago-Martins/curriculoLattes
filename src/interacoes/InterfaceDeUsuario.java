@@ -60,24 +60,31 @@ public class InterfaceDeUsuario {
 				this.autoresProjFinalizado();
 				break;
 			default:
+				System.out.println("Encerrando o programa...");
 				continuar = false;
 				break;
+			}
+			if (continuar) {
+				System.out.print("\nPressione ENTER para continuar...");
+				this.leitor.nextLine();
+				System.out.println("----------------------\n");
 			}
 		}
 	}
 	
 	public Menu getMenuOption() {
 		System.out.println("Menu, para:\n"+
-				"1- Cadastrar Pesquisadores\n"+
-				"2- Cadastrar Projetos\n"+
-				"3- Cadastrar Artigos\n"+
-				"4- Listar Pesquisadores\n"+
-				"5- Listar Projetos\n"+
-				"6- Listar Artigos\n"+
-				"7- Listar Pesquisadores de uma Universidade\n"+
-				"8- Listar Autores de um Artigo\n"+
-				"9- ListarProjetos de um Pesquisador\n"+
-				"10- Listar Autores dos Projetos finalizados\n"+
+				"  1- Cadastrar Pesquisadores\n"+
+				"  2- Cadastrar Projetos\n"+
+				"  3- Cadastrar Artigos\n"+
+				"  4- Listar Pesquisadores\n"+
+				"  5- Listar Projetos\n"+
+				"  6- Listar Artigos\n"+
+				"  7- Listar Pesquisadores de uma Universidade\n"+
+				"  8- Listar Autores de um Artigo\n"+
+				"  9- Listar Projetos de um Pesquisador\n"+
+				"  10- Listar Autores dos Projetos finalizados\n"+
+				"  Outros -> Sair\n"+
 				"----------------------"
 				);
 		int option = this.leitor.nextInt();
@@ -92,9 +99,9 @@ public class InterfaceDeUsuario {
 
 	public Pesquisador criarPesquisador() {
 		String nome = "", universidade="";
-		System.out.println("Nome: ");
+		System.out.print("Nome: ");
 		nome = this.leitor.nextLine();
-		System.out.println("Nome da Universidade");
+		System.out.print("Universidade: ");
 		universidade = this.leitor.nextLine();
 
 		Pesquisador novoPesquisador = new Pesquisador(nome, universidade);
@@ -106,9 +113,9 @@ public class InterfaceDeUsuario {
 		String nomeProjeto, descricao;
 		
 
-		System.out.println("Nome: ");
+		System.out.print("Nome: ");
 		nomeProjeto = this.leitor.nextLine();
-		System.out.println("Descricao: ");
+		System.out.print("Descricao: ");
 		descricao = this.leitor.nextLine();
 		
 		System.out.println("Forneça a data de fim do projeto");
@@ -122,14 +129,16 @@ public class InterfaceDeUsuario {
 
 			return novoProjeto;
 		}
-		System.out.println("Pesquisador nao encontrado. Operacao cancelada.");
+		System.out.println("Pesquisador ou data invalidos. Operacao cancelada.");
 		return null;
 	}
 	
 	public Artigo criarArtigo(){
-		System.out.println("Titulo do Artigo: ");
+		System.out.print("Titulo do Artigo: ");
 		String tituloArtigo = this.leitor.nextLine();
-		System.out.println("Ano de publicação: ");
+		System.out.print("Revista de publicação: ");
+		String revista = this.leitor.nextLine();
+		System.out.print("Ano de publicação: ");
 		int anoPublicacao = this.leitor.nextInt();
 		this.leitor.nextLine();
 		
@@ -137,6 +146,7 @@ public class InterfaceDeUsuario {
 		if (pesquisadorFind != null){
 			try{
 				Artigo novoArtigo = new Artigo(tituloArtigo, pesquisadorFind, anoPublicacao);
+				novoArtigo.setRevista(revista);
 				this.artigos.add(novoArtigo);
 				return novoArtigo;
 			}catch (Exception error) {
@@ -173,7 +183,7 @@ public class InterfaceDeUsuario {
 	 * Lista os pesquisadores de uma mesma Universidade;
 	 * */
 	public void pesquisadorUniversidade(){
-		System.out.println("Nome da Universidade: ");
+		System.out.print("Nome da Universidade: ");
 		String universidade = this.leitor.nextLine();
 		System.out.printf("Pesquisadores da %s:\n", universidade);
 
@@ -191,7 +201,9 @@ public class InterfaceDeUsuario {
 		Artigo artigoFind = this.getInputArtigo();
 	
 		if (artigoFind != null){
-			System.out.printf("Autores do artigo '%s...':\n", artigoFind.getTitulo().substring(0, 30));
+			System.out.printf("Autores do artigo '%s...':\n", 
+								this.getStrResumida(artigoFind.getTitulo()));
+
 			for (int i=0; i<artigoFind.getAutoresSize(); i++){
 				System.out.printf("\t%s\n", artigoFind.getAutor(i).getNome());
 			}
@@ -204,7 +216,7 @@ public class InterfaceDeUsuario {
 	 * Lista todos os projetos de um determinado pesquisador;
 	 */
 	public void projetosPesquisador(){
-		System.out.println("Nome do Pesquisador: ");
+		System.out.print("Nome do Pesquisador: ");
 		String nomePesquisador = this.leitor.nextLine();
 
 		System.out.printf("Projetos em que %s está:\n", nomePesquisador);
@@ -215,19 +227,24 @@ public class InterfaceDeUsuario {
 	}
 
 	public void autoresProjFinalizado(){
-		System.out.println("Autores de projetos finalizados:");
+		ArrayList<Pesquisador> autoresProjFim = new ArrayList<>();	
+		
 		for (Projeto projeto: this.projetos){
 			if (projeto.estahFinalizado()){
-				System.out.printf("  - %s:\n", projeto);
 				for (int i=0; i<projeto.getAutoresSize(); i++){
-					System.out.printf("\t%s\n", projeto.getAutor(i).getNome());
+					autoresProjFim.add(projeto.getAutor(i));
 				}
 			}
+		}
+		
+		System.out.println("Autores de projetos finalizados:");
+		for(Pesquisador autorProjFim: autoresProjFim){
+			System.out.printf("\t%s\n", autorProjFim.getNome());
 		}
 	}
 	
 	public Artigo getInputArtigo(){
-		System.out.println("ID do artigo: ");
+		System.out.print("ID do artigo: ");
 		int idArtigo = this.leitor.nextInt();
 		this.leitor.nextLine();
 
@@ -241,7 +258,7 @@ public class InterfaceDeUsuario {
 
 	public Pesquisador getInputPesquisador(){
 		Pesquisador getInputPesquisador=null;
-		System.out.println("Nome do Pesquisador: ");
+		System.out.print("Nome do Pesquisador: ");
 		String nome = this.leitor.nextLine();
 
 		for (Pesquisador pesquisador : this.pesquisadores) {
@@ -254,11 +271,11 @@ public class InterfaceDeUsuario {
 	}
 
 	public Data getInputData(){
-		System.out.println("Dia: ");
+		System.out.print("Dia: ");
 		int dia = this.leitor.nextInt();
-		System.out.println("Mes:");
+		System.out.print("Mes: ");
 		int mes = this.leitor.nextInt();
-		System.out.println("Ano:");
+		System.out.print("Ano: ");
 		int ano = this.leitor.nextInt();
 
 		try{
@@ -268,5 +285,10 @@ public class InterfaceDeUsuario {
 			System.out.println(error.getMessage());
 		}
 		return null;
+	}
+
+	public String getStrResumida(String strFull){
+		int endIndex = 30 < strFull.length() ? 30 : strFull.length(); 
+		return strFull.substring(0, endIndex);
 	}
 }

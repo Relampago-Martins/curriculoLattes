@@ -22,7 +22,7 @@ public class Artigo {
 	}
 	
 	public String toString(){
-		return String.format("(%d) %s, de %d",this.id, this.titulo, this.anoPublicacao);
+		return String.format("(ID: %d) %s, de %d",this.id, this.titulo, this.anoPublicacao);
 	}
 
 	public int getId() {
@@ -35,6 +35,14 @@ public class Artigo {
 	
 	public String getTitulo() {
 		return this.titulo;
+	}
+
+	public void setRevista(String revista) {
+		this.revista = revista;
+	}
+
+	public String getRevista() {
+		return this.revista;
 	}
 
 	public void setAnoPublicacao(int anoPublicacao) {
