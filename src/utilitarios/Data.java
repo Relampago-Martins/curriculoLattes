@@ -14,7 +14,7 @@ public class Data {
 		anoCheck = this.setAno(ano);
 		
 		if (!(diaCheck && mesCheck && anoCheck)) {
-			throw new IllegalArgumentException("Parametos não validos");
+			throw new IllegalArgumentException("Data informada é invalida");
 		}
 	}
 	
@@ -28,6 +28,10 @@ public class Data {
 		this.ano = calendario.get(Calendar.YEAR);
 	}
 	
+	public String toString() {
+		return this.getDataFormatada();
+	}
+
 	public String getDataFormatada() {
 		return String.format("%02d/%02d/%04d", this.dia, this.mes, this.ano);
 	}

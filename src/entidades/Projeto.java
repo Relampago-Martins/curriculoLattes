@@ -22,11 +22,6 @@ public class Projeto {
 			
 	}
 
-	public Projeto(String titulo, Pesquisador autorTitular, Data dtFim) {
-		this(titulo, autorTitular, null, dtFim);
-	}
-
-
 	public String toString(){
 		return String.format("%s", this.titulo);
 	}
@@ -52,7 +47,7 @@ public class Projeto {
 
 	public void setDtInicio(Data dtInicio) {
 		if (dtInicio == null)
-			this.dtInicio = new Data();
+			throw new IllegalArgumentException("Data de inicio não pode ser nula.");
 		else
 			this.dtInicio = dtInicio;
 	}
@@ -76,7 +71,9 @@ public class Projeto {
 				this.autores.add(novoAutor);
 			else
 				throw new IllegalArgumentException("Pesquisador já cadastrado como autor.");
-		}
+		} 
+		else
+			throw new IllegalArgumentException("Pesquisador não pode ser nulo.");
 	}
 
 	public Pesquisador getAutor(int indice) {

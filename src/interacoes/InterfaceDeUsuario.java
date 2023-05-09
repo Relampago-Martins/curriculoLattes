@@ -118,19 +118,21 @@ public class InterfaceDeUsuario {
 		System.out.print("Descricao: ");
 		descricao = this.leitor.nextLine();
 		
+		System.out.println("Forneça a data de início do projeto");
+		Data dataInicio = this.getInputData();
 		System.out.println("Forneça a data de fim do projeto");
 		Data dataFim = this.getInputData();
 		Pesquisador pesquisadorFind = this.getInputPesquisador();
 	
-		if (pesquisadorFind != null && dataFim != null) {
-			Projeto novoProjeto = new Projeto(nomeProjeto, pesquisadorFind, dataFim);
+		try{
+			Projeto novoProjeto = new Projeto(nomeProjeto, pesquisadorFind, dataInicio, dataFim);
 			novoProjeto.setDescricao(descricao);
 			this.projetos.add(novoProjeto);
-
 			return novoProjeto;
+		}catch (Exception error) {
+			System.out.printf("%s Operação cancelada.\n", error.getMessage());
+			return null;
 		}
-		System.out.println("Pesquisador ou data invalidos. Operacao cancelada.");
-		return null;
 	}
 	
 	public Artigo criarArtigo(){
@@ -143,19 +145,15 @@ public class InterfaceDeUsuario {
 		this.leitor.nextLine();
 		
 		Pesquisador pesquisadorFind = this.getInputPesquisador();
-		if (pesquisadorFind != null){
-			try{
-				Artigo novoArtigo = new Artigo(tituloArtigo, pesquisadorFind, anoPublicacao);
-				novoArtigo.setRevista(revista);
-				this.artigos.add(novoArtigo);
-				return novoArtigo;
-			}catch (Exception error) {
-				System.out.println(error.getMessage());
-				return null;
-			}
+		try{
+			Artigo novoArtigo = new Artigo(tituloArtigo, pesquisadorFind, anoPublicacao);
+			novoArtigo.setRevista(revista);
+			this.artigos.add(novoArtigo);
+			return novoArtigo;
+		}catch (Exception error) {
+			System.out.println(error.getMessage());
+			return null;
 		}
-		System.out.println("Pesquisador nao encontrado. Operacao cancelada.");
-		return null;
 	}
 
 	public void lisPesquisadores(){
@@ -277,6 +275,7 @@ public class InterfaceDeUsuario {
 		int mes = this.leitor.nextInt();
 		System.out.print("Ano: ");
 		int ano = this.leitor.nextInt();
+		this.leitor.nextLine();
 
 		try{
 			Data data = new Data(dia, mes, ano);

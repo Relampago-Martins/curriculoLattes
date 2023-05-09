@@ -62,6 +62,8 @@ public class Artigo {
 			else
 				throw new IllegalArgumentException("Pesquisador já cadastrado como autor.");
 		}
+		else
+			throw new IllegalArgumentException("Pesquisador não pode ser nulo.");
 	}
 
 	public Pesquisador getAutor(int indice) {
