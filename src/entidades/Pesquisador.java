@@ -1,6 +1,8 @@
 package entidades;
 
-public class Pesquisador {
+import java.io.Serializable;
+
+public class Pesquisador implements Serializable{
 	private String nome, universidade, areaConhecimento;
 	
 	public Pesquisador(String nome, String universidade) {
