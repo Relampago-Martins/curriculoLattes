@@ -6,7 +6,9 @@ import entidades.Pesquisador;
 import entidades.Projeto;
 import entidades.Artigo;
 
-
+/**
+ * Classe que puxa as informações de um arquivo de texto e carrega na memória
+ */
 public class CarregadorDeDados {
 	
 	public static void charge(ArrayList<Pesquisador> pesquisadores,

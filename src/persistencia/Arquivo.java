@@ -1,54 +1,42 @@
 package persistencia;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-import entidades.Pesquisador;
-
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Classe que define o comportamento de um gerenciador de IO
+ * e define alguns métodos para tratar exceções 
  */
-public class Arquivo extends IOManager{
-    /**
-     * Salva uma lista de Pesquisadores em um arquivo de persistencia de dados
-     * @param pesquisadores
-     */
-    public void dumpClientes(List<Pesquisador> pesquisadores){
-        try{
-            ObjectOutputStream objOutput = new ObjectOutputStream( new FileOutputStream("pesquisadores.obj") );
-
-            objOutput.writeObject(pesquisadores);
-
-            objOutput.flush();
-            objOutput.close();
-
-        } catch (Exception e){
-            handleExceptions(e);
-        }
-    }
+public abstract class Arquivo<T> {
 
     /**
-     * Carrega uma lista de Pesquisadores de um arquivo de persistencia de dados
-     * para a memoria
-     * @return List<Pesquisador>
+     * Salva uma lista de objetos T em um arquivo indicado
+     * Acessa o arquivo indicado e retorna uma lista de objetos T
+     * @param nomeArquivo
      */
-    public List<Pesquisador> loadClientes(){
-        List<Pesquisador> pesquisadores = new ArrayList<>();
+    protected String nomeArquivo;
+
+    public abstract void dumpData(T data);
+
+    public abstract T loadData();
+
+    /**
+     * Trata as exceções lançadas pelo sistema
+     * @param error
+     */
+    public void handleExceptions(Exception error){
         try{
-            ObjectInputStream objInput = new ObjectInputStream( new FileInputStream("pesquisadores.obj") );
-            
-            pesquisadores = (List<Pesquisador>) objInput.readObject();
-
-            objInput.close();
+            throw error;
+        } catch (FileNotFoundException e){
+            System.out.println("Arquivo não encontrado.");
+        } catch (SecurityException e){
+            System.out.println("Sem permissão de acesso ao arquivo."+
+            "Verifique as permissões de acesso ao arquivo.");
+        } catch (IOException e){
+            System.out.println("Erro ao ler arquivo.");
         } catch (Exception e){
-            handleExceptions(e);
+            System.out.println("Erro desconhecido.");
         }
-        return pesquisadores;
     }
-
-} 
+    
+}
