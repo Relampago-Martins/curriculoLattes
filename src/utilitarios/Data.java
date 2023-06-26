@@ -17,6 +17,19 @@ public class Data {
 			throw new IllegalArgumentException("Data informada é invalida");
 		}
 	}
+
+	/**
+	 * Constructor para formato pt-BR de data
+	 * @param data String no formato dd/mm/aaaa
+	 */
+	public Data(String data){
+		this();
+		String[] datas = data.trim().split("/");
+		this.setDia(Integer.parseInt(datas[0]));
+		this.setMes(Integer.parseInt(datas[1]));
+		this.setAno(Integer.parseInt(datas[2]));
+
+	}
 	
 	public Data() {
 		TimeZone zone = TimeZone.getTimeZone("GMT-03:00");

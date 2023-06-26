@@ -5,11 +5,13 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import entidades.App;
+
 
 /**
  * Classe que define o comportamento de um gerenciador de IO
  */
-public class ArquivoObj<T> extends Arquivo<T>{
+public class ArquivoObj extends Arquivo{
 
     public ArquivoObj(String nomeArquivo){
         this.nomeArquivo = nomeArquivo;
@@ -19,7 +21,7 @@ public class ArquivoObj<T> extends Arquivo<T>{
      * Salva uma lista de Pesquisadores em um arquivo de persistencia de dados
      * @param pesquisadores
      */
-    public void dumpData(T data){
+    public void dumpData(App data){
         try{
             ObjectOutputStream objOutput = new ObjectOutputStream( new FileOutputStream(this.nomeArquivo) );
 
@@ -38,13 +40,12 @@ public class ArquivoObj<T> extends Arquivo<T>{
      * para a memoria
      * @return List<Pesquisador>
      */
-    @SuppressWarnings("unchecked")
-    public T loadData(){
-        T data = null;
+    public App loadData(){
+        App data = new App();
         try{
             ObjectInputStream objInput = new ObjectInputStream( new FileInputStream(this.nomeArquivo) );
             
-            data = (T) objInput.readObject();
+            data = (App) objInput.readObject();
 
             objInput.close();
         } catch (Exception e){

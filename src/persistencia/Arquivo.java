@@ -3,11 +3,13 @@ package persistencia;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import entidades.App;
+
 /**
  * Classe que define o comportamento de um gerenciador de IO
  * e define alguns métodos para tratar exceções 
  */
-public abstract class Arquivo<T> {
+public abstract class Arquivo {
 
     /**
      * Salva uma lista de objetos T em um arquivo indicado
@@ -16,9 +18,9 @@ public abstract class Arquivo<T> {
      */
     protected String nomeArquivo;
 
-    public abstract void dumpData(T data);
+    public abstract void dumpData(App data);
 
-    public abstract T loadData();
+    public abstract App loadData();
 
     /**
      * Trata as exceções lançadas pelo sistema

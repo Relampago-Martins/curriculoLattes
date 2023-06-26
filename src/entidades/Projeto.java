@@ -22,6 +22,15 @@ public class Projeto {
 			
 	}
 
+	public Projeto(String titulo, String descricao, Data dtInicio, Data dtFim) {
+		this.id = ++Projeto.countProjetos;
+		this.setTitulo(titulo);
+		this.setDescricao(descricao);
+		this.autores = new ArrayList<>();
+		this.setDtInicio(dtInicio);
+		this.setDtFim(dtFim);
+	}
+
 	public String toString(){
 		return String.format("%s", this.titulo);
 	}
