@@ -20,6 +20,14 @@ public class Artigo {
 		this.addAutor(autorTitular);
 		this.setAnoPublicacao(anoPublicacao);
 	}
+
+	public Artigo(String titulo, String revista, int anoPublicacao){
+		this.id = ++Artigo.countArtigos;
+		this.setTitulo(titulo);
+		this.setRevista(revista);
+		this.setAnoPublicacao(anoPublicacao);
+		this.autores = new ArrayList<>();
+	}
 	
 	public String toString(){
 		return String.format("(ID: %d) %s, de %d",this.id, this.titulo, this.anoPublicacao);

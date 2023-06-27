@@ -20,8 +20,7 @@ public class ArquivoTxt extends Arquivo{
 
     @Override
     public void dumpData(App data) {
-
-
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
@@ -29,7 +28,7 @@ public class ArquivoTxt extends Arquivo{
         App data = new App();
         ArrayList<Pesquisador> pesquisadores = new ArrayList<>();
         ArrayList<Projeto> projetos = new ArrayList<>();
-        ArrayList<Artigo> artigos = null;
+        ArrayList<Artigo> artigos = new ArrayList<>();
         String linha;
         
         try{
@@ -56,12 +55,31 @@ public class ArquivoTxt extends Arquivo{
 
                 Projeto projeto = new Projeto(titulo, descricao, dataInicio, dataFim);
 
-                for (Pesquisador pesq: pesquisadores){
-                    if (pesq.getNome().contains(pesquisadoresNome)){
-                        projeto.addAutor(pesq);
+                for (Pesquisador pesquisador: pesquisadores){
+                    if (pesquisador.getNome().contains(pesquisadoresNome)){
+                        projeto.addAutor(pesquisador);
                     }
                 }
                 projetos.add(projeto);
+                linha = buffReader.readLine();
+            }
+
+            String Revista;
+            int ano;
+            while(linha.equals("#Artigo")){
+                titulo = this.cleanAttr( buffReader.readLine() );
+                Revista = this.cleanAttr( buffReader.readLine() );
+                ano = Integer.parseInt( this.cleanAttr(buffReader.readLine()) );
+                pesquisadoresNome = this.cleanAttr( buffReader.readLine() );
+
+                Artigo artigo = new Artigo(titulo, Revista, ano);
+
+                for (Pesquisador pesquisador: pesquisadores){
+                    if (pesquisador.getNome().contains(pesquisadoresNome)){
+                        artigo.addAutor(pesquisador);
+                    }
+                }
+                artigos.add(artigo);
                 linha = buffReader.readLine();
             }
 
