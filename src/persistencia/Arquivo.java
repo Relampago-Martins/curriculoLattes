@@ -10,16 +10,18 @@ import entidades.App;
  * e define alguns métodos para tratar exceções 
  */
 public abstract class Arquivo {
-
-    /**
-     * Salva uma lista de objetos T em um arquivo indicado
-     * Acessa o arquivo indicado e retorna uma lista de objetos T
-     * @param nomeArquivo
-     */
     protected String nomeArquivo;
 
+    /**
+     * Salva os dados gerais da aplicação em um arquivo de persistencia de dados
+     * @param data : Dados de um App
+     */
     public abstract void dumpData(App data);
 
+    /**
+     * Carrega dados gerais da aplicação de um arquivo de persistencia de dados
+     * para a memoria
+     */
     public abstract App loadData();
 
     /**

@@ -36,17 +36,17 @@ public class ArquivoTxt extends Arquivo{
             linha = buffReader.readLine();
 
             String nome, universidade;
-            while(linha.equals("#Pesquisador")){
+            while(linha.trim().equals("#Pesquisador")){
                 nome = this.cleanAttr( buffReader.readLine() );
                 universidade = this.cleanAttr( buffReader.readLine() );
                 
                 pesquisadores.add( new Pesquisador(nome, universidade) );
                 linha = buffReader.readLine();
             }
-            
+    
             String titulo, descricao, pesquisadoresNome;
             Data dataInicio, dataFim; 
-            while(linha.equals("#Projeto")){
+            while(linha.trim().equals("#Projeto")){
                 dataInicio = new Data(this.cleanAttr( buffReader.readLine() ));
                 dataFim = new Data(this.cleanAttr( buffReader.readLine() ));
                 titulo = this.cleanAttr( buffReader.readLine() );
@@ -66,10 +66,10 @@ public class ArquivoTxt extends Arquivo{
 
             String Revista;
             int ano;
-            while(linha.equals("#Artigo")){
+            while(linha.trim().equals("#Artigo")){
                 titulo = this.cleanAttr( buffReader.readLine() );
-                Revista = this.cleanAttr( buffReader.readLine() );
                 ano = Integer.parseInt( this.cleanAttr(buffReader.readLine()) );
+                Revista = this.cleanAttr( buffReader.readLine() );
                 pesquisadoresNome = this.cleanAttr( buffReader.readLine() );
 
                 Artigo artigo = new Artigo(titulo, Revista, ano);
@@ -82,6 +82,10 @@ public class ArquivoTxt extends Arquivo{
                 artigos.add(artigo);
                 linha = buffReader.readLine();
             }
+            
+            data.setPesquisadores(pesquisadores);
+            data.setArtigos(artigos);
+            data.setProjetos(projetos);
 
             buffReader.close();
         }catch(Exception e){
@@ -91,7 +95,13 @@ public class ArquivoTxt extends Arquivo{
     }
 
     private String cleanAttr(String attr){
-        return attr.split(":", 1)[1].trim();
+        String[] splits = attr.split(":", 2);
+        if (splits.length >= 2){
+            return attr.split(":", 2)[1].trim();
+        }
+
+        return attr;
+
     }
     
 }

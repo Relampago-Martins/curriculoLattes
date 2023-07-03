@@ -17,10 +17,6 @@ public class ArquivoObj extends Arquivo{
         this.nomeArquivo = nomeArquivo;
     }
 
-    /**
-     * Salva uma lista de Pesquisadores em um arquivo de persistencia de dados
-     * @param pesquisadores
-     */
     public void dumpData(App data){
         try{
             ObjectOutputStream objOutput = new ObjectOutputStream( new FileOutputStream(this.nomeArquivo) );
@@ -35,11 +31,6 @@ public class ArquivoObj extends Arquivo{
         }
     }
 
-    /**
-     * Carrega uma lista de Pesquisadores de um arquivo de persistencia de dados
-     * para a memoria
-     * @return List<Pesquisador>
-     */
     public App loadData(){
         App data = new App();
         try{
