@@ -16,7 +16,7 @@ public class InterfaceDeUsuario {
 		CRIAR_PESQUISADOR, CRIAR_PROJETO, CRIAR_ARTIGO,
 		LIS_PESQUISADORES, LIS_PROJETOS, LIS_ARTIGOS, PESQUISADOR_UNIVERSIDADE,
 		AUTORES_ARTIGO, PROJETOS_PESQUISADOR, AUTORES_PROJ_FINALIZADO,
-		DEFAULT
+		RESTAURAR_DADOS, DEFAULT
 	}
 
 	ArrayList<Pesquisador> pesquisadores = new ArrayList<>(); 
@@ -60,6 +60,9 @@ public class InterfaceDeUsuario {
 			case AUTORES_PROJ_FINALIZADO:
 				this.autoresProjFinalizado();
 				break;
+			case RESTAURAR_DADOS:
+				this.restaurarDados();
+				break;
 			default:
 				System.out.println("Encerrando o programa...");
 				continuar = false;
@@ -89,7 +92,8 @@ public class InterfaceDeUsuario {
 				"  8- Listar Autores de um Artigo\n"+
 				"  9- Listar Projetos de um Pesquisador\n"+
 				"  10- Listar Autores dos Projetos finalizados\n"+
-				"  Outros -> Sair\n"+
+				"  11- Restaurar dados salvos anteriormente\n"+
+				"  Outros -> Salvar e sair\n"+
 				"----------------------"
 				);
 		int option = this.leitor.nextInt();
@@ -100,6 +104,15 @@ public class InterfaceDeUsuario {
 		}catch (Exception e) {
 			return Menu.DEFAULT;
 		}
+	}
+
+	public void restaurarDados() {
+		System.out.println("Restaurando dados...");
+		this.pesquisadores.clear();
+		this.projetos.clear();
+		this.artigos.clear();
+		CarregadorDeDados.chargeFromObject(this.pesquisadores, this.artigos, this.projetos);
+		System.out.println("Dados restaurados com sucesso!");
 	}
 
 	public Pesquisador criarPesquisador() {

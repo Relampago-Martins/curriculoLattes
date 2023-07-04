@@ -56,10 +56,11 @@ public class ArquivoTxt extends Arquivo{
                 Projeto projeto = new Projeto(titulo, descricao, dataInicio, dataFim);
 
                 for (Pesquisador pesquisador: pesquisadores){
-                    if (pesquisador.getNome().contains(pesquisadoresNome)){
+                    if (pesquisadoresNome.contains(pesquisador.getNome())){
                         projeto.addAutor(pesquisador);
                     }
                 }
+
                 projetos.add(projeto);
                 linha = buffReader.readLine();
             }
@@ -75,7 +76,7 @@ public class ArquivoTxt extends Arquivo{
                 Artigo artigo = new Artigo(titulo, Revista, ano);
 
                 for (Pesquisador pesquisador: pesquisadores){
-                    if (pesquisador.getNome().contains(pesquisadoresNome)){
+                    if (pesquisadoresNome.contains(pesquisador.getNome())){
                         artigo.addAutor(pesquisador);
                     }
                 }
@@ -101,7 +102,7 @@ public class ArquivoTxt extends Arquivo{
     private String cleanAttr(String attr){
         String[] splits = attr.split(":", 2);
         if (splits.length >= 2){
-            return attr.split(":", 2)[1].trim();
+            return splits[1].trim();
         }
 
         return attr;

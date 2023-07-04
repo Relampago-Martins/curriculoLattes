@@ -21,7 +21,7 @@ public class CarregadorDeDados {
 	 * @param projetos ArrayList de projetos
 	 */
 	public static void chargeFromTxt(ArrayList<Pesquisador> pesquisadores,
-			ArrayList<Artigo> artigos, ArrayList<Projeto> projetos) {
+	ArrayList<Artigo> artigos, ArrayList<Projeto> projetos) {
 	
 		ArquivoTxt arquivo = new ArquivoTxt("curriculoLates.txt");
 
@@ -39,5 +39,16 @@ public class CarregadorDeDados {
 	public static void saveAsObject(App app) {
 		ArquivoObj arquivo = new ArquivoObj("curriculoLates.obj");
 		arquivo.dumpData(app);
+	}
+
+	public static void chargeFromObject(ArrayList<Pesquisador> pesquisadores,
+	ArrayList<Artigo> artigos, ArrayList<Projeto> projetos) {
+		ArquivoObj arquivo = new ArquivoObj("curriculoLates.obj");
+		
+		App data = arquivo.loadData();
+
+		pesquisadores.addAll(data.getPesquisadores());
+		artigos.addAll(data.getArtigos());
+		projetos.addAll(data.getProjetos());
 	}
 }
