@@ -7,6 +7,7 @@ import utilitarios.CarregadorDeDados;
 import utilitarios.Data;
 import entidades.Pesquisador;
 import entidades.Projeto;
+import entidades.App;
 import entidades.Artigo;
 
 public class InterfaceDeUsuario {
@@ -24,7 +25,7 @@ public class InterfaceDeUsuario {
 	int contadorProjetos, contadorArtigos;
 	
 	public void rodarMenuPrincipal() {
-		CarregadorDeDados.charge(this.pesquisadores, this.artigos, this.projetos);
+		CarregadorDeDados.chargeFromTxt(this.pesquisadores, this.artigos, this.projetos);
 	
 		boolean continuar = true;	
 		while (continuar) {			
@@ -62,6 +63,10 @@ public class InterfaceDeUsuario {
 			default:
 				System.out.println("Encerrando o programa...");
 				continuar = false;
+	
+				App registrosApp = new App(this.pesquisadores, this.projetos, this.artigos);
+				CarregadorDeDados.saveAsObject(registrosApp);
+	
 				break;
 			}
 			if (continuar) {

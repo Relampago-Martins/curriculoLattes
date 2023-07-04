@@ -1,11 +1,12 @@
 package entidades;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import utilitarios.Data;
 
 
-public class Projeto {
+public class Projeto implements Serializable{
 	private static int countProjetos = 0;
 	private String titulo, descricao;
 	private Data dtInicio, dtFim;

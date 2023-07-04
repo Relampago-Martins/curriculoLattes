@@ -1,9 +1,10 @@
 package utilitarios;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.Locale;
 
-public class Data {
+public class Data implements Serializable{
 
 	private int dia, mes, ano;
 	

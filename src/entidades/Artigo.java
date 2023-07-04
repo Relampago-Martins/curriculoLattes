@@ -1,11 +1,12 @@
 package entidades;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import utilitarios.Data; 
 
 
-public class Artigo {
+public class Artigo implements Serializable{
 
 	private static int countArtigos = 0;
 	private String titulo, revista;

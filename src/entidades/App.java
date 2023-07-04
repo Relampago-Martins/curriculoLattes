@@ -9,6 +9,16 @@ public class App implements Serializable{
     private ArrayList<Projeto> projetos;
     private ArrayList<Artigo> artigos;
 
+    public App(){
+        super();
+    }
+
+    public App(ArrayList<Pesquisador> pesquisadores, ArrayList<Projeto> projetos, ArrayList<Artigo> artigos){
+        this.pesquisadores = pesquisadores;
+        this.projetos = projetos;
+        this.artigos = artigos;
+    }
+
     public ArrayList<Pesquisador> getPesquisadores() {
         return this.pesquisadores;
     }
