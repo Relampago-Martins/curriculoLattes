@@ -83,6 +83,10 @@ public class ArquivoTxt extends Arquivo{
                 linha = buffReader.readLine();
             }
 
+            data.setPesquisadores(pesquisadores);
+            data.setProjetos(projetos);
+            data.setArtigos(artigos);
+
             buffReader.close();
         }catch(Exception e){
             handleExceptions(e);
